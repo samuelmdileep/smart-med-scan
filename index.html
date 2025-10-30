@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Med Scan</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Header -->
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+
+      <div class="app-title">
+        <div class="logo-small"></div>
+        <span>Smart Med Scan</span>
+      </div>
+
+      <i class="fas fa-bell notification-icon"></i>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-bar-wrapper">
+        <div class="search-bar">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            id="search"
+            type="text"
+            placeholder="Search medicine name..."
+            class="search-input"
+          />
+          <i id="clear-btn" class="fas fa-times clear-icon"></i>
+          <i id="mic-icon" class="fas fa-microphone mic-icon"></i>
+        </div>
+        <div id="search-suggestions" class="search-suggestions"></div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content" id="app-content">
+      <!-- Welcome Screen -->
+      <div id="welcome-screen" class="welcome-screen">
+        <div class="css-logo"></div>
+        <h2>Welcome to Smart Med Scan!</h2>
+        <p>Your comprehensive guide to understanding medicines.</p>
+        <p>Search for any medicine to discover its ingredients and potential side effects.</p>
+        <button id="get-started-btn" class="get-started-btn">Get Started</button>
+      </div>
+
+      <!-- Medicine Details -->
+      <div id="medicine-details-view" class="medicine-details-view" style="display:none;">
+        <h2>Paracetamol</h2>
+        <p>Used for pain relief and fever reduction.</p>
+
+        <!-- Dosage Section -->
+        <div class="dosage-section">
+          <h3>💊 Dosage</h3>
+          <div class="dosage-grid">
+            <div class="dosage-card">
+              <div class="dosage-figure adult-figure">
+                <div class="head"></div>
+                <div class="body"></div>
+              </div>
+              <div class="dosage-info">
+                <h4>Adult</h4>
+                <p><strong>Amount:</strong> 500 mg</p>
+                <p><strong>Interval:</strong> Every 6 hours</p>
+                <p><strong>Max per Day:</strong> 4000 mg</p>
+              </div>
+            </div>
+
+            <div class="dosage-card">
+              <div class="dosage-figure child-figure">
+                <div class="head"></div>
+                <div class="body"></div>
+              </div>
+              <div class="dosage-info">
+                <h4>Child</h4>
+                <p><strong>Amount:</strong> 250 mg</p>
+                <p><strong>Interval:</strong> Every 6 hours</p>
+                <p><strong>Max per Day:</strong> 2000 mg</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Favorites -->
+      <div id="favorites-view" class="favorites-view" style="display:none;">
+        <h2>Your Favorites ❤️</h2>
+        <div id="favorite-list"></div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="nav-item active-nav" id="home-tab">
+        <i class="fas fa-home"></i>
+        <p>Home</p>
+      </div>
+      <div class="nav-item" id="favorites-tab">
+        <i class="fas fa-heart"></i>
+        <p>Favorites</p>
+      </div>
+      <div class="nav-item">
+        <i class="fas fa-history"></i>
+        <p>History</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
