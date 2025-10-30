@@ -365,38 +365,58 @@ body {
 }
 
 /* --- Bottom Navigation --- */
+/* --- Bottom Navigation --- */
 .navbar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 65px;
-    background-color: #fff;
-    border-top: 1px solid #eee;
-    box-shadow: 0 -2px 10px var(--shadow-light);
-    padding-top: 8px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 65px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2px 10px var(--shadow-light);
+  padding: 8px 0;
 }
 
+/* Horizontal nav items */
 .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--text-light);
-    font-size: 0.75em;
-    font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.75em;
+  font-weight: 500;
+  flex: 1;
+  transition: all 0.3s ease;
+   padding-top: 15px;  
 }
 
 .nav-item i {
-    font-size: 1.4em;
-    margin-bottom: 4px;
+  font-size: 1.4em;
+  margin-bottom: 4px;
 }
 
+/* Hover & active effects */
 .nav-item:hover {
-    color: var(--primary-color);
-    transform: scale(1.05);
+  color: var(--primary-color);
+  transform: scale(1.05);
 }
 
 .active-nav {
-    color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Keep content scrollable above nav */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px; /* prevent overlap */
 }
 
 
