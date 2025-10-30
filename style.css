@@ -23,8 +23,10 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
+  overflow: auto;       /* allow scrolling */
+  overflow-x: hidden;   /* still prevent horizontal scroll */
 }
+
 
 /* 📱 App Container */
 .app-container {
