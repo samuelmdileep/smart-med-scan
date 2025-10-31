@@ -1,577 +1,720 @@
-// app.js — updated (search, history, clear button, safe regex, favorites/history/nav)
-//
-// Drop-in replace for your current app.js. Keeps your existing HTML/CSS.
-// Notes: escapes regex for user input to avoid scrambled/highlight issues.
-
-let medicines = [];
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-
-// 🧠 Icons map (unchanged)
-const sideEffectIcons = {
-  "Nausea": "fas fa-dizzy",
-  "Stomach pain": "fas fa-stomach",
-  "Heartburn": "fas fa-fire-alt",
-  "Dizziness": "fas fa-head-side-mask",
-  "Allergic rash": "fas fa-allergies",
-  "Liver damage": "fas fa-lungs",
-  "Drowsiness": "fas fa-bed",
-  "Dry mouth": "fas fa-frown",
-  "Fatigue": "fas fa-tired",
-  "Headache": "fas fa-head-side-mask",
-  "Vomiting": "fas fa-poop",
-  "Diarrhea": "fas fa-toilet",
-  "Constipation": "fas fa-box",
-  "Insomnia": "fas fa-moon",
-  "Blurred vision": "fas fa-eye",
-  "Muscle pain": "fas fa-hand-fist",
-  "Cough": "fas fa-lungs"
-};
-
-// 🔗 DOM
-const searchInput = document.getElementById("search");
-const micIcon = document.getElementById("mic-icon");
-const getStartedBtn = document.getElementById("get-started-btn");
-const welcomeScreen = document.getElementById("welcome-screen");
-const medicineDetailsView = document.getElementById("medicine-details-view");
-const searchSuggestions = document.getElementById("search-suggestions");
-const content = document.querySelector(".content");
-const navItems = document.querySelectorAll(".nav-item");
-
-getStartedBtn.addEventListener("click", () => {
-  // act just like tapping search bar
-  welcomeScreen.style.display = "none";
-  searchInput.focus();
-  renderHistoryPreview(); // show recent searches (like tapping bar)
-});
-
-// create & inject clear button (×) inside .search-bar if not in HTML
-const clearBtn = document.getElementById("clear-btn");
-
-// NOTE: Assuming clearBtn is now defined in index.html, no need to create/inject.
-// -------------------- utilities --------------------
-function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+/* 🌿 Color Variables */
+:root {
+    --primary-color: #58C9B9;
+    --secondary-color: #E0F2F1;
+    --background-color: #F8F8F8;
+    --text-dark: #333;
+    --text-light: #555;
+    --shadow-light: rgba(0, 0, 0, 0.05);
 }
 
-function saveFavorites() {
-  localStorage.setItem("favorites", JSON.stringify(favorites));
+/* 🌍 Global (Mobile-First) */
+* {
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
 }
 
-function saveHistory() {
-  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-}
-
-// safe function used by history buttons
-function searchMedicine(name) {
-  if (!name) return;
-  searchInput.value = name;
-  performSearch(name);
-  hideDropdowns();
-}
-
-// hide suggestions/history dropdown
-function hideDropdowns() {
-  searchSuggestions.style.display = "none";
-  clearBtn.style.display = searchInput.value ? "inline-block" : "none";
-}
-
-// show welcome
-function showWelcomeScreen() {
-  welcomeScreen.style.display = "flex";
-  medicineDetailsView.style.display = "none";
-  content.innerHTML = "";
-  content.appendChild(welcomeScreen);
-  hideDropdowns();
-}
-
-// -------------------- load medicines --------------------
-fetch("medicines.json")
-  .then(res => res.json())
-  .then(data => {
-    medicines = data;
-    showWelcomeScreen();
-  })
-  .catch(err => {
-    console.error("Error loading medicines:", err);
-    showWelcomeScreen();
-  });
-
-// -------------------- history functions --------------------
-function addToHistory(medName) {
-  if (!medName) return;
-  // normalize
-  medName = medName.trim();
-  searchHistory = searchHistory.filter(x => x.toLowerCase() !== medName.toLowerCase());
-  searchHistory.unshift(medName);
-  if (searchHistory.length > 10) searchHistory.pop();
-  saveHistory();
-}
-
-function getRecentHistory(limit = 4) {
-  return (searchHistory || []).slice(0, limit);
-}
-
-function renderHistoryPreview() {
-  // used when input is empty and search bar focused
-  searchSuggestions.innerHTML = "";
-  const recent = getRecentHistory(4);
-  if (recent.length === 0) {
-    searchSuggestions.style.display = "none";
-    return;
-  }
-  recent.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "search-suggestion-item dropdown-item";
-    div.innerHTML = `<i class="fas fa-history"></i> ${item}`;
-    div.onclick = () => searchMedicine(item);
-    searchSuggestions.appendChild(div);
-  });
-  // show small "clear preview" row at bottom
-  const clearRow = document.createElement("div");
-  clearRow.className = "search-suggestion-item dropdown-item";
-  clearRow.style.justifyContent = "center";
-  clearRow.innerHTML = `<button class="clear-history-small" style="border:none;background:#ff4b5c;color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;">Clear recent</button>`;
-  clearRow.querySelector("button").onclick = (e) => {
-    e.stopPropagation();
-    searchHistory = [];
-    saveHistory();
-    renderHistoryPreview();
-  };
-  searchSuggestions.appendChild(clearRow);
-  searchSuggestions.style.display = "block";
-}
-
-// -------------------- search logic --------------------
-function performSearch(query) {
-  const q = (query || "").toLowerCase().trim();
-  if (!q) {
-    showWelcomeScreen();
-    return;
-  }
-
-  // 🔍 Direct match
-  let matched = medicines.find(m => m.name.toLowerCase() === q);
-
-  // 🔍 If not found, check aliases (otherNames)
-  if (!matched) {
-    matched = medicines.find(m =>
-      (m.otherNames || []).some(alias => alias.toLowerCase() === q)
-    );
-  }
-
-  // 🔍 If still not found, try partial match in names
-  if (!matched) {
-    matched = medicines.find(m =>
-      m.name.toLowerCase().includes(q) ||
-      (m.otherNames || []).some(alias => alias.toLowerCase().includes(q))
-    );
-  }
-
-  if (matched) {
-    showMedicineDetails(matched);
-  } else {
-    alert("No medicine found for: " + query);
-  }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #CDE6E5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  overflow: auto;       /* allow scrolling */
+  overflow-x: hidden;   /* still prevent horizontal scroll */
 }
 
 
-function renderSuggestions(query) {
-  searchSuggestions.innerHTML = "";
-  const q = (query || "").trim();
-  if (!q) {
-    searchSuggestions.style.display = "none";
-    return;
-  }
-
-  const safe = escapeRegex(q);
-  const matched = medicines.filter(m => m.name.toLowerCase().includes(q.toLowerCase()));
-  if (matched.length === 0) {
-    searchSuggestions.style.display = "none";
-    return;
-  }
-
-  matched.slice(0, 6).forEach(med => {
-    const item = document.createElement("div");
-    item.className = "search-suggestion-item dropdown-item";
-    // highlight match safely
-    const regex = new RegExp(`(${safe})`, "ig");
-    const labelHTML = med.name.replace(regex, "<strong>$1</strong>");
-    item.innerHTML = `<i class="fas fa-pills"></i> ${labelHTML}`;
-    item.onclick = () => {
-      searchInput.value = med.name;
-      hideDropdowns();
-      showMedicineDetails(med);
-    };
-    searchSuggestions.appendChild(item);
-  });
-
-  // show small "see more" row if more results exist
-  if (matched.length > 6) {
-    const more = document.createElement("div");
-    more.className = "search-suggestion-item dropdown-item";
-    more.style.justifyContent = "center";
-    more.innerHTML = `<small>Show more results...</small>`;
-    searchSuggestions.appendChild(more);
-  }
-
-  searchSuggestions.style.display = "block";
+/* 📱 App Container */
+.app-container {
+    width: 100%;
+    max-width: 450px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 0 20px var(--shadow-light);
+    border-radius: 15px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
 }
 
-// -------------------- event listeners --------------------
+/* --- Header --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
 
-// input typing → suggestions
-searchInput.addEventListener("input", (e) => {
-  const q = e.target.value || "";
-  clearBtn.style.display = q.trim() ? "inline-block" : "none";
+.app-title {
+    font-size: 1.2em;
+    font-weight: 600;
+}
 
-  if (!q.trim()) {
-    // if empty, show recent preview on focus only; hide otherwise
-    searchSuggestions.style.display = "none";
-    return;
-  }
-  renderSuggestions(q);
-});
+.menu-icon,
+.notification-icon,
+.mic-icon {
+  font-size: 1.3em;
+  cursor: pointer;
+  color: var(--text-light);
+}
 
-// on focus → show recent history preview when empty
-searchInput.addEventListener("focus", () => {
-  const q = searchInput.value || "";
-  if (!q.trim()) {
-    renderHistoryPreview();
-  }
-});
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--text-dark);
+}
 
-// on blur → hide suggestions after short delay (allows click handler)
-searchInput.addEventListener("blur", () => {
-  setTimeout(() => {
-    hideDropdowns();
-  }, 180);
-});
+/* 🩺 Mini logo same as welcome page */
+.logo-small {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--primary-color), #40b9a7);
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(88, 201, 185, 0.4);
+}
 
-// Enter key → search (Home fallback)
-searchInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    const q = searchInput.value.trim();
-    if (!q) {
-      showWelcomeScreen();
-      return;
+.logo-small::before,
+.logo-small::after {
+  content: '';
+  position: absolute;
+  background-color: white;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+.logo-small::before {
+  width: 14px;
+  height: 3px;
+}
+
+.logo-small::after {
+  width: 3px;
+  height: 14px;
+}
+
+.mic-icon.listening {
+  color: #00bfa5;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- Search Section (Updated for Google-style Clear Button) --- */
+
+/* ✅ Fix: anchor suggestion box properly */
+.search-bar-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--secondary-color);
+  border-radius: 25px;
+  padding: 10px 16px;
+  box-shadow: 0 2px 5px var(--shadow-light);
+  position: relative;
+}
+
+.search-icon {
+  font-size: 1.1em;
+  color: var(--text-light);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1em;
+  padding: 0 10px;
+  color: var(--text-dark);
+}
+
+/* ✖ Clear button — clean like Google’s */
+.clear-icon {
+  display: none;
+  color: #9aa0a6;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: color 0.2s ease;
+}
+
+.clear-icon:hover {
+  color: #5f6368;
+}
+
+/* 🎤 Mic icon — right aligned, bold color */
+.mic-icon {
+  color: var(--primary-color);
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.mic-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Subtle focus effect like Google */
+.search-bar:focus-within {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Search Suggestions --- */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  z-index: 999;
+  display: none;
+}
+
+
+.search-suggestion-item {
+    padding: 12px 15px;
+    font-size: 1em;
+    color: var(--text-dark);
+    cursor: pointer;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.search-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.search-suggestion-item:hover {
+    background-color: var(--secondary-color);
+}
+
+/* --- Content Area --- */
+.content {
+    flex-grow: 1;
+    padding: 25px 20px 20px;
+    background-color: var(--background-color);
+    border-radius: 10px 10px 0 0;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+}
+
+.content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+/* --- Welcome Screen --- */
+.welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    padding: 20px;
+}
+
+.css-logo {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--primary-color), #40b9a7);
+    border-radius: 30px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(88, 201, 185, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.css-logo::before,
+.css-logo::after {
+    content: '';
+    position: absolute;
+    background-color: white;
+    border-radius: 4px;
+    opacity: 0.8;
+}
+
+.css-logo::before {
+    width: 70px;
+    height: 15px;
+}
+
+.css-logo::after {
+    width: 15px;
+    height: 70px;
+}
+
+.welcome-screen h2 {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.welcome-screen p {
+    font-size: 0.95em;
+    color: var(--text-light);
+    line-height: 1.4;
+    max-width: 300px;
+    margin-bottom: 5px;
+}
+
+.get-started-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 25px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(88, 201, 185, 0.4);
+}
+
+.get-started-btn:hover {
+    background-color: #40b9a7;
+    transform: translateY(-2px);
+}
+
+
+/* 💊 Favorite Medicine Card Styling */
+.fav-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  height: 70px;
+}
+
+.fav-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+
+.side-effects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
+    padding: 0 10px 20px;
+}
+
+.side-effect-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
+    background-color: #fff;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px var(--shadow-light);
+    cursor: pointer;
+    min-height: 120px;
+}
+
+.side-effect-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(88, 201, 185, 0.3);
+}
+
+.side-effect-icon {
+    font-size: 2.2em;
+    color: var(--primary-color);
+    padding: 10px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.side-effect-card p {
+    font-size: 0.9em;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* --- Bottom Navigation --- */
+/* --- Bottom Navigation --- */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 65px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2px 10px var(--shadow-light);
+  padding: 8px 0;
+}
+
+/* Horizontal nav items */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.75em;
+  font-weight: 500;
+  flex: 1;
+  transition: all 0.3s ease;
+   padding-top: 15px;  
+}
+
+.nav-item i {
+  font-size: 1.4em;
+  margin-bottom: 4px;
+}
+
+/* Hover & active effects */
+.nav-item:hover {
+  color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.active-nav {
+  color: var(--primary-color);
+}
+
+/* Keep content scrollable above nav */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px; /* prevent overlap */
+}
+
+
+
+/* ❤️ Favorite Button */
+.medicine-details-view {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin: 20px;
+  max-width: 700px;
+  margin-inline: auto;
+}
+/* Fav button — consistent active state + subtle hover */
+.fav-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.75);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 26px;
+  color: #aaa;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Subtle hover for non-favorited state only */
+.fav-btn:not(.active):hover {
+  transform: scale(1.06);
+  background: rgba(0,0,0,0.04);        /* gentle fade — user said they don't care about hover */
+  color: #e06773;                      /* slight tint but NOT the full active red */
+}
+
+/* Active (favorited) state must persist — even on hover */
+.fav-btn.active,
+.fav-btn.active:hover {
+  color: #ff4b5c;                      /* visible red */
+  background: rgba(255,230,230,0.92);  /* stronger bg so it reads as active */
+  transform: scale(1.06);              /* small scale for feedback */
+  box-shadow: 0 6px 18px rgba(255,75,92,0.08);
+}
+
+/* Pulse animation only used when adding */
+.fav-btn.pulse {
+  animation: favPulse 0.36s ease;
+}
+@keyframes favPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+  100% { transform: scale(1.06); }
+}
+
+
+/* Fix for favorites section layout */
+#favorite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.favorite-item {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.favorite-item h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.favorite-item .fav-btn {
+  position: static;
+  width: 36px;
+  height: 36px;
+  font-size: 22px;
+}
+/* Favorites grid cards layout */
+.fav-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.small-fav-icon {
+  color: #ff4b5c;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.small-fav-icon:hover {
+  transform: scale(1.2);
+}
+
+/* 💊 Dosage Section *//* Dosage layout */
+.dosage-section {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.dosage-card {
+  flex: 1 1 45%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.dosage-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Icon container */
+.dosage-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 0.5rem;
+  position: relative;
+}
+
+/* 👨 Adult icon */
+.adult-icon {
+  background: linear-gradient(135deg, #007bff, #0099ff);
+  border-radius: 50%;
+}
+.adult-icon::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #007bff;
+  border-radius: 50%;
+  top: -10px;
+  left: 25px;
+}
+
+/* 🧒 Child icon */
+.child-icon {
+  background: linear-gradient(135deg, #ffb347, #ffcc33);
+  border-radius: 50%;
+  transform: scale(0.9);
+}
+.child-icon::before {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: #ffb347;
+  border-radius: 50%;
+  top: -8px;
+  left: 27px;
+}
+
+/* Titles */
+.section-title {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* history page */
+
+/* --- Full History Page --- */
+.history-page {
+  padding: 1.5rem;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear-history-btn {
+  background: #ff4b5c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+.clear-history-btn:hover {
+  background: #e04050;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.history-item:hover {
+  background: #f9f9f9;
+}
+
+.scan-icon {
+  margin-left: 20px;
+  margin-right: 8px;
+  color: #58c9b9;
+  cursor: pointer;
+}
+.scan-icon:hover {
+  color: #48b0a3;
+}
+
+
+
+/* 💻 Desktop Fullscreen & Spacing Optimization */
+@media (min-width: 1024px) {
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Prevent scrollbars */
+        background-color: var(--background-color);
     }
-    performSearch(q);
-    hideDropdowns();
-  }
-});
 
-// clear button behaviour
-clearBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  searchInput.value = "";
-  searchSuggestions.innerHTML = "";
-  searchSuggestions.style.display = "none";
-  clearBtn.style.display = "none";
-  searchInput.focus();
-});
-
-// mic icon clears (existing behaviour)
-if (micIcon) {
-  micIcon.addEventListener("click", () => {
-    searchInput.value = "";
-    searchSuggestions.style.display = "none";
-    clearBtn.style.display = "none";
-    searchInput.focus();
-  });
-}
-
-// -------------------- medicine details --------------------
-function showMedicineDetails(medicine) {
-  if (!medicine) return;
-  welcomeScreen.style.display = "none";
-  medicineDetailsView.style.display = "block";
-
-  // render into .content (replace content)
-  content.innerHTML = "";
-  content.appendChild(medicineDetailsView);
-
-  const isFav = favorites.some(f => f.name === medicine.name);
-  addToHistory(medicine.name);
-
-  const sideEffectsHtml = (medicine.sideEffects || []).map(effect => `
-    <div class="side-effect-card">
-      <i class="${sideEffectIcons[effect] || 'fas fa-question-circle'} side-effect-icon"></i>
-      <p>${effect}</p>
-    </div>
-  `).join("");
-
-  medicineDetailsView.innerHTML = `
-    <div class="medicine-card">
-      <button id="fav-btn" class="fav-btn ${isFav ? 'active' : ''}" title="Add to favorites">
-        <i class="fas fa-heart"></i>
-      </button>
-
-      <div class="medicine-header">
-        <h2>${medicine.name}</h2>
-      </div>
-
-      <div class="details-section">
-        <p><strong>Uses:</strong> ${medicine.uses || "-"}</p>
-        <p><strong>Ingredients:</strong> ${Array.isArray(medicine.ingredients) ? medicine.ingredients.join(", ") : (medicine.ingredients || "-")}</p>
-      </div>
-
-      ${medicine.dosage ? `
-        <h3 class="section-title">Recommended Dosage</h3>
-        <div class="dosage-section">
-          <div class="dosage-card adult">
-            <div class="dosage-icon adult-icon"></div>
-            <h4>Adults</h4>
-            <p><strong>Amount:</strong> ${medicine.dosage.adult.amount}</p>
-            <p><strong>Interval:</strong> ${medicine.dosage.adult.interval}</p>
-            <p><strong>Max per Day:</strong> ${medicine.dosage.adult.maxPerDay}</p>
-          </div>
-          <div class="dosage-card child">
-            <div class="dosage-icon child-icon"></div>
-            <h4>Children</h4>
-            <p><strong>Amount:</strong> ${medicine.dosage.child.amount}</p>
-            <p><strong>Interval:</strong> ${medicine.dosage.child.interval}</p>
-            <p><strong>Max per Day:</strong> ${medicine.dosage.child.maxPerDay}</p>
-          </div>
-        </div>
-      ` : ""}
-
-      <h3 class="section-title">Potential Side Effects</h3>
-      <div class="side-effects-grid">
-        ${sideEffectsHtml}
-      </div>
-    </div>
-  `;
-
-  // fav button handler
-  const favBtn = document.getElementById("fav-btn");
-  favBtn.addEventListener("click", () => toggleFavorite(medicine, favBtn));
-}
-
-// -------------------- favorites --------------------
-function toggleFavorite(medicine, favBtn) {
-  const exists = favorites.find(f => f.name === medicine.name);
-  if (exists) {
-    favorites = favorites.filter(f => f.name !== medicine.name);
-    favBtn.classList.remove("active");
-  } else {
-    favorites.push(medicine);
-    favBtn.classList.add("active");
-  }
-  saveFavorites();
-}
-
-// show favorites page
-function showFavorites() {
-  content.innerHTML = `<h2 class="fav-title">❤️ Your Favorites</h2>`;
-  if (!favorites.length) {
-    content.innerHTML += `<p class="no-fav">No favorites added yet.</p>`;
-    return;
-  }
-  const favGrid = document.createElement("div");
-  favGrid.className = "side-effects-grid";
-  favorites.forEach(med => {
-    // find full record if possible
-    const full = medicines.find(x => x.name === med.name) || med;
-    const card = document.createElement("div");
-    card.className = "side-effect-card";
-    card.innerHTML = `<div class="fav-card-content"><p class="fav-name">${full.name}</p></div>`;
-    card.onclick = () => showMedicineDetails(full);
-    favGrid.appendChild(card);
-  });
-  content.appendChild(favGrid);
-}
-//mic
-// 🎙️ Voice Search Feature
-// micIcon already declared above; reuse the existing variable
-// Remove duplicate declaration of searchInput
-
-if ("webkitSpeechRecognition" in window) {
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = "en-IN";
-  recognition.continuous = false;
-  recognition.interimResults = false;
-
-  micIcon.addEventListener("click", () => {
-    recognition.start();
-    micIcon.classList.add("listening");
-  });
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    searchInput.value = transcript;
-    searchInput.dispatchEvent(new Event("input")); // trigger search
-  };
-
-  recognition.onerror = () => {
-    alert("Voice recognition error. Please try again.");
-  };
-
-  recognition.onend = () => {
-    micIcon.classList.remove("listening");
-  };
-} else {
-  micIcon.addEventListener("click", () => {
-    alert("Speech recognition not supported in this browser.");
-  });
-}
-
-// -------------------- full history page --------------------
-function showFullHistory() {
-  content.innerHTML = `
-    <div class="history-page">
-      <div class="history-header">
-        <h2>🔍 Search History</h2>
-        <button id="clear-history-btn" class="clear-history-btn">Clear All</button>
-      </div>
-      <div id="history-list"></div>
-    </div>
-  `;
-
-  const historyList = document.getElementById("history-list");
-  if (!searchHistory.length) {
-    historyList.innerHTML = "<p>No history yet.</p>";
-    document.getElementById("clear-history-btn").style.display = "none";
-    return;
-  }
-
-  searchHistory.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "history-item";
-    div.innerHTML = `<span>${item}</span><i class="fas fa-arrow-right"></i>`;
-    div.onclick = () => {
-      searchInput.value = item;
-      performSearch(item);
-    };
-    historyList.appendChild(div);
-  });
-
-  document.getElementById("clear-history-btn").addEventListener("click", () => {
-    if (!confirm("Clear all search history?")) return;
-    searchHistory = [];
-    saveHistory();
-    showFullHistory();
-  });
-}
-
-// -------------------- nav handling --------------------
-navItems.forEach(item => {
-  item.addEventListener("click", () => {
-    navItems.forEach(n => n.classList.remove("active-nav"));
-    item.classList.add("active-nav");
-
-    const label = (item.querySelector("p") || {}).textContent || "";
-    if (label.trim() === "Home") showWelcomeScreen();
-    else if (label.trim() === "Favorites") showFavorites();
-    else if (label.trim() === "History") showFullHistory();
-  });
-});
-
-// -------------------- start --------------------
-if (getStartedBtn) getStartedBtn.addEventListener("click", showWelcomeScreen);
-
-// Small helper to hide dropdowns on outside click
-document.addEventListener("click", (e) => {
-  const inSearch = e.target.closest(".search-bar") || e.target.closest("#search-suggestions");
-  if (!inSearch) hideDropdowns();
-});
-
-// Export small API (optional)
-window.appAPI = {
-  searchMedicine,
-  showFullHistory,
-  showFavorites,
-  showWelcomeScreen
-};
-// -------------------- OCR Integration --------------------
-// -------------------- OCR Integration (Smart Filter) --------------------
-const ocrBtn = document.getElementById("ocr-btn");
-const ocrInput = document.getElementById("ocr-image");
-
-const medicinePriorityList = [
-  "Paracetamol", "Ibuprofen", "Cetirizine", "Amoxicillin", "Azithromycin",
-  "Dolo", "Crocin", "Panadol", "Calpol", "Metformin",
-  "Pantoprazole", "Omeprazole", "Cetrizine", "Aspirin", "Diclofenac",
-  "Losartan", "Amlodipine", "Atorvastatin", "Levocetirizine", "Ranitidine"
-];
-
-const ignoreWords = [
-  "Tablet", "Tablets", "Capsule", "Capsules", "Strip", "Syrup", "Injection",
-  "Suspension", "Dose", "For", "Use", "Mg", "Ml", "Each", "Contains"
-];
-
-ocrBtn.addEventListener("click", () => {
-  ocrInput.click();
-});
-
-ocrInput.addEventListener("change", async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append("apikey", "02de19fdfa88957"); // your OCR.space API key
-  formData.append("language", "eng");
-  formData.append("isOverlayRequired", "false");
-  formData.append("file", file);
-
-  // show spinner while processing
-  ocrBtn.disabled = true;
-  const originalHTML = ocrBtn.innerHTML;
-  ocrBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
-
-  try {
-    const res = await fetch("https://api.ocr.space/parse/image", {
-      method: "POST",
-      body: formData
-    });
-    const data = await res.json();
-
-    const text = data?.ParsedResults?.[0]?.ParsedText || "";
-    if (!text.trim()) {
-      alert("No readable text found in image.");
-      return;
+    .app-container {
+        width: 100%;
+        max-width: none;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
-    console.log("🩺 OCR Raw:", text);
-
-    // Clean and normalize words
-    const words = text
-      .replace(/[^A-Za-z0-9\s]/g, " ")
-      .split(/\s+/)
-      .map(w => w.trim())
-      .filter(w => w.length > 2 && w.length < 20)
-      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-      .filter(w => !ignoreWords.includes(w));
-
-    console.log("💊 Filtered Words:", words);
-
-    // Look for a medicine in the priority list
-    let probableMed = words.find(w => medicinePriorityList.includes(w));
-
-    // If no direct match, find one that ends with "mg" or number combo
-    if (!probableMed) {
-      probableMed = words.find((w, i) => /\d+mg/i.test(words[i + 1] || ""));
-      if (probableMed) probableMed += " " + (words[words.indexOf(probableMed) + 1] || "");
+    .header {
+        padding: 30px 60px 20px;
     }
 
-    // If still nothing, fallback to first valid word
-    if (!probableMed && words.length) probableMed = words[0];
-
-    if (probableMed) {
-      searchInput.value = probableMed;
-      searchInput.dispatchEvent(new Event("input")); // show clear button
-      performSearch(probableMed);
-    } else {
-      alert("No valid medicine name detected.");
+    .search-section {
+        padding: 25px 60px 25px;
+        background: var(--background-color);
     }
-  } catch (err) {
-    console.error("OCR error:", err);
-    alert("Failed to extract text. Try again.");
-  } finally {
-    ocrBtn.disabled = false;
-    ocrBtn.innerHTML = originalHTML;
-  }
-});
 
+    .content {
+        padding: 40px 60px;
+        background-color: #fff;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-color) transparent;
+    }
 
+    .content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .content::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 10px;
+    }
+
+    .navbar {
+        height: 70px;
+        padding: 10px 60px;
+        box-shadow: 0 -2px 10px var(--shadow-light);
+    }
+
+    .side-effects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+    }
+
+    .medicine-details-view h2 {
+        text-align: left;
+        padding-left: 10px;
+    }
+    
+}
