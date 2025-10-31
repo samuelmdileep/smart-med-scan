@@ -1,27 +1,30 @@
 [
   {
     "name": "Paracetamol",
-    "uses": "Fever, pain relief",
+    "uses": "Relief of mild to moderate pain (headache, muscle ache, toothache) and for reducing fever (antipyretic).",
+    "otherNames": ["Acetaminophen", "Tylenol", "Dolo 650", "Calpol"],
     "ingredients": ["Paracetamol"],
     "dosage": {
       "adult": { "amount": "500 mg", "interval": "Every 6 hours", "maxPerDay": "4000 mg" },
       "child": { "amount": "250 mg", "interval": "Every 6 hours", "maxPerDay": "2000 mg" }
     },
-    "sideEffects": ["Nausea", "Headache", "Liver damage"]
+    "sideEffects": ["Nausea", "Headache", "Liver damage (with overdose)"]
   },
   {
     "name": "Ibuprofen",
-    "uses": "Pain, inflammation, and fever relief",
+    "uses": "Pain, inflammation, and fever relief; treats arthritis, menstrual cramps, and common injuries.",
+    "otherNames": ["Advil", "Motrin"],
     "ingredients": ["Ibuprofen"],
     "dosage": {
       "adult": { "amount": "400 mg", "interval": "Every 8 hours", "maxPerDay": "1200 mg" },
       "child": { "amount": "200 mg", "interval": "Every 8 hours", "maxPerDay": "800 mg" }
     },
-    "sideEffects": ["Stomach pain", "Heartburn", "Dizziness"]
+    "sideEffects": ["Stomach pain", "Heartburn", "Dizziness", "GI bleeding risk"]
   },
   {
     "name": "Cetirizine",
-    "uses": "Allergy and cold symptoms",
+    "uses": "Relief of seasonal and perennial allergy symptoms, including hay fever, sneezing, and chronic hives.",
+    "otherNames": ["Zyrtec"],
     "ingredients": ["Cetirizine Hydrochloride"],
     "dosage": {
       "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "10 mg" },
@@ -31,7 +34,8 @@
   },
   {
     "name": "Amoxicillin",
-    "uses": "Bacterial infections",
+    "uses": "Broad-spectrum antibiotic for bacterial infections like ear, nose, throat, skin, and urinary tract infections (UTIs).",
+    "otherNames": ["Amoxil"],
     "ingredients": ["Amoxicillin"],
     "dosage": {
       "adult": { "amount": "500 mg", "interval": "Every 8 hours", "maxPerDay": "3000 mg" },
@@ -41,37 +45,41 @@
   },
   {
     "name": "Lisinopril",
-    "uses": "High blood pressure and heart failure",
+    "uses": "Treatment of hypertension, congestive heart failure, and to improve survival after a heart attack (ACE inhibitor).",
+    "otherNames": ["Prinivil", "Zestril"],
     "ingredients": ["Lisinopril"],
     "dosage": {
       "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "40 mg" },
       "child": { "amount": "2.5 mg", "interval": "Once daily", "maxPerDay": "10 mg" }
     },
-    "sideEffects": ["Dizziness", "Cough", "Fatigue"]
+    "sideEffects": ["Dizziness", "Cough (dry)", "Fatigue", "Angioedema"]
   },
   {
     "name": "Metformin",
-    "uses": "Type 2 diabetes control",
+    "uses": "Primary treatment for Type 2 diabetes mellitus to lower blood sugar by reducing liver glucose production.",
+    "otherNames": ["Glucophage"],
     "ingredients": ["Metformin Hydrochloride"],
     "dosage": {
       "adult": { "amount": "500 mg", "interval": "Twice daily", "maxPerDay": "2000 mg" },
       "child": { "amount": "250 mg", "interval": "Twice daily", "maxPerDay": "1000 mg" }
     },
-    "sideEffects": ["Nausea", "Stomach upset", "Fatigue"]
+    "sideEffects": ["Nausea", "Stomach upset", "Fatigue", "Lactic acidosis (rare)"]
   },
   {
     "name": "Omeprazole",
-    "uses": "Acidity, heartburn, and ulcers",
+    "uses": "Reduces stomach acid to treat Gastroesophageal Reflux Disease (GERD), heartburn, and gastric ulcers (PPI).",
+    "otherNames": ["Prilosec"],
     "ingredients": ["Omeprazole"],
     "dosage": {
       "adult": { "amount": "20 mg", "interval": "Once daily", "maxPerDay": "40 mg" },
       "child": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "20 mg" }
     },
-    "sideEffects": ["Headache", "Nausea", "Constipation"]
+    "sideEffects": ["Headache", "Nausea", "Constipation", "Diarrhea"]
   },
   {
     "name": "Azithromycin",
-    "uses": "Bacterial infections (respiratory, skin, throat)",
+    "uses": "Antibiotic for bacterial infections, including respiratory tract (pneumonia), skin, and certain sexually transmitted diseases.",
+    "otherNames": ["Zithromax", "Z-Pak"],
     "ingredients": ["Azithromycin"],
     "dosage": {
       "adult": { "amount": "500 mg", "interval": "Once daily", "maxPerDay": "500 mg" },
@@ -81,7 +89,8 @@
   },
   {
     "name": "Salbutamol",
-    "uses": "Asthma and breathing relief",
+    "uses": "Bronchodilator (rescue inhaler) for immediate relief of bronchospasm in asthma and COPD.",
+    "otherNames": ["Albuterol", "Ventolin"],
     "ingredients": ["Salbutamol"],
     "dosage": {
       "adult": { "amount": "2 mg", "interval": "Every 6 hours", "maxPerDay": "8 mg" },
@@ -91,7 +100,8 @@
   },
   {
     "name": "Pantoprazole",
-    "uses": "Gastric acidity and ulcers",
+    "uses": "Reduces gastric acidity, treats severe heartburn, and heals gastric and duodenal ulcers (PPI).",
+    "otherNames": ["Protonix"],
     "ingredients": ["Pantoprazole"],
     "dosage": {
       "adult": { "amount": "40 mg", "interval": "Once daily", "maxPerDay": "40 mg" },
@@ -101,47 +111,52 @@
   },
   {
     "name": "Amlodipine",
-    "uses": "High blood pressure and chest pain",
+    "uses": "Treats high blood pressure (hypertension) and various forms of chest pain (angina) (Calcium Channel Blocker).",
+    "otherNames": ["Norvasc"],
     "ingredients": ["Amlodipine"],
     "dosage": {
       "adult": { "amount": "5 mg", "interval": "Once daily", "maxPerDay": "10 mg" },
       "child": { "amount": "2.5 mg", "interval": "Once daily", "maxPerDay": "5 mg" }
     },
-    "sideEffects": ["Swelling", "Fatigue", "Dizziness"]
+    "sideEffects": ["Swelling (edema)", "Fatigue", "Dizziness"]
   },
   {
     "name": "Diclofenac",
-    "uses": "Pain and inflammation relief",
+    "uses": "Strong NSAID for pain and inflammation relief, especially in arthritis, gout, and acute injuries.",
+    "otherNames": ["Voltaren"],
     "ingredients": ["Diclofenac Sodium"],
     "dosage": {
       "adult": { "amount": "50 mg", "interval": "Every 8 hours", "maxPerDay": "150 mg" },
       "child": { "amount": "25 mg", "interval": "Every 8 hours", "maxPerDay": "75 mg" }
     },
-    "sideEffects": ["Nausea", "Stomach pain", "Heartburn"]
+    "sideEffects": ["Nausea", "Stomach pain", "Heartburn", "Cardiovascular risk"]
   },
   {
     "name": "Atorvastatin",
-    "uses": "Cholesterol control",
+    "uses": "Lowers high cholesterol (LDL-C) and triglycerides to reduce the risk of heart attack and stroke (Statin).",
+    "otherNames": ["Lipitor"],
     "ingredients": ["Atorvastatin"],
     "dosage": {
       "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "80 mg" },
       "child": { "amount": "5 mg", "interval": "Once daily", "maxPerDay": "20 mg" }
     },
-    "sideEffects": ["Muscle pain", "Headache", "Fatigue"]
+    "sideEffects": ["Muscle pain (myalgia)", "Headache", "Fatigue", "Liver enzyme elevations"]
   },
   {
     "name": "Ciprofloxacin",
-    "uses": "Antibiotic for urinary and skin infections",
+    "uses": "Broad-spectrum antibiotic for complicated UTIs, skin infections, and certain respiratory infections (Fluoroquinolone).",
+    "otherNames": ["Cipro"],
     "ingredients": ["Ciprofloxacin"],
     "dosage": {
       "adult": { "amount": "500 mg", "interval": "Every 12 hours", "maxPerDay": "1000 mg" },
       "child": { "amount": "250 mg", "interval": "Every 12 hours", "maxPerDay": "500 mg" }
     },
-    "sideEffects": ["Nausea", "Headache", "Dizziness"]
+    "sideEffects": ["Nausea", "Headache", "Dizziness", "Tendon rupture risk"]
   },
   {
     "name": "Doxycycline",
-    "uses": "Antibiotic for bacterial infections and acne",
+    "uses": "Antibiotic for bacterial infections, including acne, respiratory infections, and prevention of malaria (Tetracycline).",
+    "otherNames": ["Vibramycin"],
     "ingredients": ["Doxycycline Hyclate"],
     "dosage": {
       "adult": { "amount": "100 mg", "interval": "Every 12 hours", "maxPerDay": "200 mg" },
@@ -151,7 +166,8 @@
   },
   {
     "name": "Ranitidine",
-    "uses": "Reduces stomach acid and prevents ulcers",
+    "uses": "Reduces stomach acid, treats heartburn, indigestion, and prevents ulcers (H2 Blocker).",
+    "otherNames": ["Zantac"],
     "ingredients": ["Ranitidine"],
     "dosage": {
       "adult": { "amount": "150 mg", "interval": "Twice daily", "maxPerDay": "300 mg" },
@@ -161,47 +177,52 @@
   },
   {
     "name": "Clarithromycin",
-    "uses": "Antibiotic for respiratory infections",
+    "uses": "Macrolide antibiotic for respiratory tract infections, skin infections, and part of H. pylori eradication therapy.",
+    "otherNames": ["Biaxin"],
     "ingredients": ["Clarithromycin"],
     "dosage": {
       "adult": { "amount": "500 mg", "interval": "Every 12 hours", "maxPerDay": "1000 mg" },
       "child": { "amount": "250 mg", "interval": "Every 12 hours", "maxPerDay": "500 mg" }
     },
-    "sideEffects": ["Nausea", "Stomach pain", "Headache"]
+    "sideEffects": ["Nausea", "Stomach pain", "Headache", "Taste perversion"]
   },
   {
     "name": "Levofloxacin",
-    "uses": "Broad-spectrum antibiotic",
+    "uses": "Broad-spectrum antibiotic for respiratory infections (pneumonia), UTIs, and skin structure infections (Fluoroquinolone).",
+    "otherNames": ["Levaquin"],
     "ingredients": ["Levofloxacin"],
     "dosage": {
       "adult": { "amount": "500 mg", "interval": "Once daily", "maxPerDay": "500 mg" },
       "child": { "amount": "250 mg", "interval": "Once daily", "maxPerDay": "250 mg" }
     },
-    "sideEffects": ["Nausea", "Dizziness", "Diarrhea"]
+    "sideEffects": ["Nausea", "Dizziness", "Diarrhea", "Tendon rupture risk"]
   },
   {
     "name": "Prednisolone",
-    "uses": "Inflammation and allergy control",
+    "uses": "Powerful corticosteroid for severe inflammation, asthma, allergic reactions, and autoimmune disorders.",
+    "otherNames": ["Deltasone"],
     "ingredients": ["Prednisolone"],
     "dosage": {
       "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "60 mg" },
       "child": { "amount": "5 mg", "interval": "Once daily", "maxPerDay": "30 mg" }
     },
-    "sideEffects": ["Weight gain", "Mood swings", "Insomnia"]
+    "sideEffects": ["Weight gain", "Mood swings", "Insomnia", "Fluid retention"]
   },
   {
     "name": "Losartan",
-    "uses": "Treats hypertension and protects kidneys",
+    "uses": "Treats hypertension and is used for kidney protection in Type 2 diabetes (Angiotensin II Receptor Blocker - ARB).",
+    "otherNames": ["Cozaar"],
     "ingredients": ["Losartan Potassium"],
     "dosage": {
       "adult": { "amount": "50 mg", "interval": "Once daily", "maxPerDay": "100 mg" },
       "child": { "amount": "25 mg", "interval": "Once daily", "maxPerDay": "50 mg" }
     },
-    "sideEffects": ["Dizziness", "Fatigue", "Cough"]
+    "sideEffects": ["Dizziness", "Fatigue", "Cough (less than ACE inhibitors)"]
   },
   {
     "name": "Fexofenadine",
-    "uses": "Allergy relief without drowsiness",
+    "uses": "Second-generation, non-sedating antihistamine for seasonal allergy relief and chronic urticaria (hives).",
+    "otherNames": ["Allegra", "Telfast"],
     "ingredients": ["Fexofenadine Hydrochloride"],
     "dosage": {
       "adult": { "amount": "120 mg", "interval": "Once daily", "maxPerDay": "180 mg" },
@@ -211,7 +232,8 @@
   },
   {
     "name": "Hydroxyzine",
-    "uses": "Anxiety and allergy treatment",
+    "uses": "Antihistamine used to treat anxiety, tension, agitation, and for relief of pruritus (itching) due to allergies.",
+    "otherNames": ["Atarax", "Vistaril"],
     "ingredients": ["Hydroxyzine Hydrochloride"],
     "dosage": {
       "adult": { "amount": "25 mg", "interval": "Every 8 hours", "maxPerDay": "100 mg" },
@@ -221,17 +243,19 @@
   },
   {
     "name": "Montelukast",
-    "uses": "Prevents asthma and allergy symptoms",
+    "uses": "Leukotriene receptor antagonist used for the maintenance treatment of asthma and to prevent seasonal allergy symptoms.",
+    "otherNames": ["Singulair"],
     "ingredients": ["Montelukast Sodium"],
     "dosage": {
-      "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "10 mg" },
-      "child": { "amount": "5 mg", "interval": "Once daily", "maxPerDay": "5 mg" }
+      "adult": { "amount": "10 mg", "interval": "Once daily (evening)", "maxPerDay": "10 mg" },
+      "child": { "amount": "5 mg", "interval": "Once daily (evening)", "maxPerDay": "5 mg" }
     },
-    "sideEffects": ["Headache", "Abdominal pain", "Fatigue"]
+    "sideEffects": ["Headache", "Abdominal pain", "Fatigue", "Neuropsychiatric effects (rare)"]
   },
   {
     "name": "Clopidogrel",
-    "uses": "Prevents blood clots and heart attacks",
+    "uses": "Antiplatelet agent used to prevent blood clots, heart attacks, and stroke in high-risk patients.",
+    "otherNames": ["Plavix"],
     "ingredients": ["Clopidogrel Bisulfate"],
     "dosage": {
       "adult": { "amount": "75 mg", "interval": "Once daily", "maxPerDay": "75 mg" },
@@ -241,62 +265,607 @@
   },
   {
     "name": "Simvastatin",
-    "uses": "Lowers cholesterol",
+    "uses": "Statin used to lower cholesterol and reduce the risk of cardiovascular events in patients with coronary heart disease.",
+    "otherNames": ["Zocor"],
     "ingredients": ["Simvastatin"],
     "dosage": {
-      "adult": { "amount": "20 mg", "interval": "Once daily", "maxPerDay": "40 mg" },
-      "child": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "20 mg" }
+      "adult": { "amount": "20 mg", "interval": "Once daily (evening)", "maxPerDay": "40 mg" },
+      "child": { "amount": "10 mg", "interval": "Once daily (evening)", "maxPerDay": "20 mg" }
     },
     "sideEffects": ["Muscle pain", "Nausea", "Headache"]
   },
   {
     "name": "Amoxicillin-Clavulanate",
-    "uses": "Broad-spectrum antibiotic for infections",
+    "uses": "Broad-spectrum antibiotic for infections like sinusitis, ear infections, and pneumonia (contains an enzyme inhibitor for resistance).",
+    "otherNames": ["Augmentin"],
     "ingredients": ["Amoxicillin", "Clavulanic Acid"],
     "dosage": {
       "adult": { "amount": "625 mg", "interval": "Every 12 hours", "maxPerDay": "1250 mg" },
       "child": { "amount": "250 mg", "interval": "Every 12 hours", "maxPerDay": "500 mg" }
     },
-    "sideEffects": ["Nausea", "Diarrhea", "Rash"]
+    "sideEffects": ["Nausea", "Diarrhea", "Rash", "Vomiting"]
   },
   {
     "name": "Tramadol",
-    "uses": "Moderate to severe pain relief",
+    "uses": "Opioid analgesic for the management of moderate to moderately severe pain (acts on opioid receptors and inhibits reuptake).",
+    "otherNames": ["Ultram"],
     "ingredients": ["Tramadol Hydrochloride"],
     "dosage": {
       "adult": { "amount": "50 mg", "interval": "Every 6 hours", "maxPerDay": "400 mg" },
       "child": { "amount": "25 mg", "interval": "Every 6 hours", "maxPerDay": "200 mg" }
     },
-    "sideEffects": ["Dizziness", "Nausea", "Constipation"]
+    "sideEffects": ["Dizziness", "Nausea", "Constipation", "Seizures risk"]
   },
   {
     "name": "Hydrochlorothiazide",
-    "uses": "Treats high blood pressure and edema",
+    "uses": "Diuretic (water pill) used to treat high blood pressure (hypertension) and edema (fluid retention).",
+    "otherNames": ["HCTZ", "Microzide"],
     "ingredients": ["Hydrochlorothiazide"],
     "dosage": {
       "adult": { "amount": "25 mg", "interval": "Once daily", "maxPerDay": "50 mg" },
       "child": { "amount": "12.5 mg", "interval": "Once daily", "maxPerDay": "25 mg" }
     },
-    "sideEffects": ["Dizziness", "Thirst", "Muscle cramps"]
+    "sideEffects": ["Dizziness", "Thirst", "Muscle cramps", "Low potassium levels"]
   },
   {
     "name": "Metoprolol",
-    "uses": "Treats high blood pressure and chest pain",
+    "uses": "Beta-blocker used to treat high blood pressure, chest pain (angina), and to prevent complications after a heart attack.",
+    "otherNames": ["Lopressor", "Toprol-XL"],
     "ingredients": ["Metoprolol Tartrate"],
     "dosage": {
       "adult": { "amount": "50 mg", "interval": "Twice daily", "maxPerDay": "200 mg" },
       "child": { "amount": "25 mg", "interval": "Twice daily", "maxPerDay": "100 mg" }
     },
-    "sideEffects": ["Fatigue", "Dizziness", "Slow heartbeat"]
+    "sideEffects": ["Fatigue", "Dizziness", "Slow heartbeat", "Cold hands/feet"]
   },
   {
     "name": "Guaifenesin",
-    "uses": "Relieves chest congestion and cough",
+    "uses": "Expectorant used to relieve chest congestion and coughing by thinning mucus in the airways.",
+    "otherNames": ["Robitussin (plain)", "Mucinex"],
     "ingredients": ["Guaifenesin"],
     "dosage": {
       "adult": { "amount": "200 mg", "interval": "Every 4 hours", "maxPerDay": "2400 mg" },
       "child": { "amount": "100 mg", "interval": "Every 4 hours", "maxPerDay": "1200 mg" }
     },
     "sideEffects": ["Nausea", "Dizziness", "Stomach upset"]
+  },
+  {
+    "name": "Naproxen",
+    "uses": "NSAID for pain, inflammation, and stiffness in conditions like arthritis, gout, and tendinitis.",
+    "otherNames": ["Aleve", "Naprosyn"],
+    "ingredients": ["Naproxen Sodium"],
+    "dosage": {
+      "adult": { "amount": "250 mg", "interval": "Twice daily", "maxPerDay": "1000 mg" },
+      "child": { "amount": "5 mg/kg", "interval": "Twice daily", "maxPerDay": "15 mg/kg" }
+    },
+    "sideEffects": ["Indigestion", "Stomach upset", "Headache"]
+  },
+  {
+    "name": "Levothyroxine",
+    "uses": "Synthetic thyroid hormone used to treat hypothyroidism (underactive thyroid) and goiter.",
+    "otherNames": ["Synthroid", "Levoxyl"],
+    "ingredients": ["Levothyroxine Sodium"],
+    "dosage": {
+      "adult": { "amount": "1.6 mcg/kg", "interval": "Once daily", "maxPerDay": "300 mcg" },
+      "child": { "amount": "2-4 mcg/kg", "interval": "Once daily", "maxPerDay": "150 mcg" }
+    },
+    "sideEffects": ["Hair loss (initial)", "Weight changes", "Palpitations (with overdose)"]
+  },
+  {
+    "name": "Gabapentin",
+    "uses": "Anticonvulsant/antiepileptic drug used to treat partial seizures and nerve pain (neuropathic pain) like postherpetic neuralgia.",
+    "otherNames": ["Neurontin"],
+    "ingredients": ["Gabapentin"],
+    "dosage": {
+      "adult": { "amount": "300 mg", "interval": "Three times daily (titrated)", "maxPerDay": "3600 mg" },
+      "child": { "amount": "10-15 mg/kg", "interval": "Three times daily", "maxPerDay": "50 mg/kg" }
+    },
+    "sideEffects": ["Drowsiness", "Dizziness", "Fatigue", "Ataxia"]
+  },
+  {
+    "name": "Sertraline",
+    "uses": "Selective Serotonin Reuptake Inhibitor (SSRI) used to treat major depressive disorder, obsessive-compulsive disorder (OCD), and panic disorder.",
+    "otherNames": ["Zoloft"],
+    "ingredients": ["Sertraline Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "50 mg", "interval": "Once daily", "maxPerDay": "200 mg" },
+      "child": { "amount": "25 mg", "interval": "Once daily", "maxPerDay": "150 mg" }
+    },
+    "sideEffects": ["Nausea", "Diarrhea", "Insomnia", "Sexual dysfunction"]
+  },
+  {
+    "name": "Rosuvastatin",
+    "uses": "Potent Statin used to significantly lower LDL-C, raise HDL-C, and slow the progression of atherosclerosis.",
+    "otherNames": ["Crestor"],
+    "ingredients": ["Rosuvastatin"],
+    "dosage": {
+      "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "40 mg" },
+      "child": { "amount": "5 mg", "interval": "Once daily", "maxPerDay": "20 mg" }
+    },
+    "sideEffects": ["Muscle pain", "Headache", "Abdominal pain"]
+  },
+  {
+    "name": "Tamsulosin",
+    "uses": "Alpha-blocker used to improve urination in men with an enlarged prostate (Benign Prostatic Hyperplasia - BPH).",
+    "otherNames": ["Flomax"],
+    "ingredients": ["Tamsulosin Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "0.4 mg", "interval": "Once daily (after meal)", "maxPerDay": "0.8 mg" },
+      "child": { "amount": "Not recommended", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Dizziness", "Headache", "Rhinitis (runny nose)"]
+  },
+  {
+    "name": "Escitalopram",
+    "uses": "SSRI used to treat major depressive disorder (MDD) and generalized anxiety disorder (GAD).",
+    "otherNames": ["Lexapro"],
+    "ingredients": ["Escitalopram Oxalate"],
+    "dosage": {
+      "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "20 mg" },
+      "child": { "amount": "Not recommended for children under 12", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Nausea", "Insomnia", "Sexual dysfunction", "Sweating"]
+  },
+  {
+    "name": "Furosemide",
+    "uses": "Loop diuretic (strong water pill) used to treat edema associated with heart failure, liver disease, or kidney disease, and hypertension.",
+    "otherNames": ["Lasix"],
+    "ingredients": ["Furosemide"],
+    "dosage": {
+      "adult": { "amount": "20 mg - 40 mg", "interval": "Once or twice daily", "maxPerDay": "600 mg" },
+      "child": { "amount": "1 mg/kg", "interval": "Once or twice daily", "maxPerDay": "6 mg/kg" }
+    },
+    "sideEffects": ["Dehydration", "Low potassium levels", "Dizziness", "Ototoxicity (rare)"]
+  },
+  {
+    "name": "Warfarin",
+    "uses": "Oral anticoagulant (blood thinner) used to prevent blood clots in conditions like atrial fibrillation, DVT, and pulmonary embolism.",
+    "otherNames": ["Coumadin", "Jantoven"],
+    "ingredients": ["Warfarin Sodium"],
+    "dosage": {
+      "adult": { "amount": "2 mg - 10 mg", "interval": "Once daily (dose adjusted by INR)", "maxPerDay": "Variable" },
+      "child": { "amount": "0.1 mg/kg", "interval": "Once daily (titrated)", "maxPerDay": "Variable" }
+    },
+    "sideEffects": ["**Severe Bleeding**", "Bruising", "Purple toes syndrome (rare)"]
+  },
+  {
+    "name": "Spironolactone",
+    "uses": "Potassium-sparing diuretic used to treat hypertension, edema, and is a key drug for heart failure.",
+    "otherNames": ["Aldactone"],
+    "ingredients": ["Spironolactone"],
+    "dosage": {
+      "adult": { "amount": "25 mg", "interval": "Once or twice daily", "maxPerDay": "100 mg" },
+      "child": { "amount": "1 mg/kg", "interval": "Once daily", "maxPerDay": "3 mg/kg" }
+    },
+    "sideEffects": ["High potassium levels", "Dizziness", "Breast tenderness (men/women)"]
+  },
+  {
+    "name": "Fluoxetine",
+    "uses": "SSRI used to treat major depressive disorder, OCD, panic disorder, and bulimia nervosa.",
+    "otherNames": ["Prozac", "Sarafem"],
+    "ingredients": ["Fluoxetine Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "20 mg", "interval": "Once daily", "maxPerDay": "80 mg" },
+      "child": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "60 mg" }
+    },
+    "sideEffects": ["Insomnia", "Headache", "Nausea", "Anxiety"]
+  },
+  {
+    "name": "Ondansetron",
+    "uses": "Anti-emetic (anti-nausea) drug used to prevent and treat nausea and vomiting, especially post-surgery or chemotherapy-induced.",
+    "otherNames": ["Zofran"],
+    "ingredients": ["Ondansetron Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "8 mg", "interval": "Up to three times daily", "maxPerDay": "24 mg" },
+      "child": { "amount": "4 mg", "interval": "Up to three times daily", "maxPerDay": "12 mg" }
+    },
+    "sideEffects": ["Headache", "Constipation", "Dizziness"]
+  },
+  {
+    "name": "Zolpidem",
+    "uses": "Sedative-hypnotic drug used for the short-term treatment of insomnia (trouble falling asleep).",
+    "otherNames": ["Ambien"],
+    "ingredients": ["Zolpidem Tartrate"],
+    "dosage": {
+      "adult": { "amount": "5 mg - 10 mg", "interval": "Once nightly (before bed)", "maxPerDay": "10 mg" },
+      "child": { "amount": "Not recommended", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Drowsiness", "Dizziness", "Headache", "Sleepwalking (rare)"]
+  },
+  {
+    "name": "Clonazepam",
+    "uses": "Benzodiazepine used to prevent and control seizures (antiepileptic) and treat panic disorder.",
+    "otherNames": ["Klonopin"],
+    "ingredients": ["Clonazepam"],
+    "dosage": {
+      "adult": { "amount": "0.5 mg", "interval": "Three times daily", "maxPerDay": "20 mg" },
+      "child": { "amount": "0.01 mg/kg", "interval": "Three times daily", "maxPerDay": "0.2 mg/kg" }
+    },
+    "sideEffects": ["Drowsiness", "Ataxia (loss of control of movements)", "Fatigue", "Dependence"]
+  },
+  {
+    "name": "Atenolol",
+    "uses": "Beta-blocker used to treat high blood pressure, angina, and for the long-term management of heart attacks.",
+    "otherNames": ["Tenormin"],
+    "ingredients": ["Atenolol"],
+    "dosage": {
+      "adult": { "amount": "50 mg", "interval": "Once daily", "maxPerDay": "100 mg" },
+      "child": { "amount": "0.5 mg/kg", "interval": "Once daily", "maxPerDay": "2 mg/kg" }
+    },
+    "sideEffects": ["Slow heartbeat", "Dizziness", "Fatigue", "Cold extremities"]
+  },
+  {
+    "name": "Trazodone",
+    "uses": "Antidepressant used primarily to treat major depressive disorder and often prescribed off-label for insomnia.",
+    "otherNames": ["Desyrel"],
+    "ingredients": ["Trazodone Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "50 mg", "interval": "Once daily (bedtime)", "maxPerDay": "400 mg" },
+      "child": { "amount": "Not recommended for children under 18", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Drowsiness", "Dizziness", "Dry mouth", "Blurred vision"]
+  },
+  {
+    "name": "Cyclobenzaprine",
+    "uses": "Muscle relaxant used for the short-term relief of muscle spasms associated with acute, painful musculoskeletal conditions.",
+    "otherNames": ["Flexeril"],
+    "ingredients": ["Cyclobenzaprine Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "5 mg", "interval": "Three times daily", "maxPerDay": "30 mg" },
+      "child": { "amount": "Not recommended for children under 15", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Drowsiness", "Dry mouth", "Dizziness"]
+  },
+  {
+    "name": "Propranolol",
+    "uses": "Beta-blocker used for high blood pressure, angina, tremors, migraine prophylaxis, and anxiety.",
+    "otherNames": ["Inderal"],
+    "ingredients": ["Propranolol Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "40 mg", "interval": "Twice daily", "maxPerDay": "320 mg" },
+      "child": { "amount": "0.5 mg/kg", "interval": "Three times daily", "maxPerDay": "4 mg/kg" }
+    },
+    "sideEffects": ["Bradycardia (slow heart rate)", "Fatigue", "Dizziness"]
+  },
+  {
+    "name": "Quetiapine",
+    "uses": "Atypical antipsychotic used to treat schizophrenia, bipolar disorder, and as an adjunct for major depressive disorder.",
+    "otherNames": ["Seroquel"],
+    "ingredients": ["Quetiapine Fumarate"],
+    "dosage": {
+      "adult": { "amount": "25 mg", "interval": "Twice daily (titrated)", "maxPerDay": "800 mg" },
+      "child": { "amount": "Not recommended for children under 10", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Drowsiness", "Dizziness", "Weight gain", "Dry mouth"]
+  },
+  {
+    "name": "Budesonide",
+    "uses": "Inhaled corticosteroid used as a maintenance treatment for asthma and COPD to reduce inflammation in the airways.",
+    "otherNames": ["Pulmicort", "Rhinocort"],
+    "ingredients": ["Budesonide"],
+    "dosage": {
+      "adult": { "amount": "200 mcg", "interval": "Twice daily", "maxPerDay": "800 mcg" },
+      "child": { "amount": "100 mcg", "interval": "Twice daily", "maxPerDay": "400 mcg" }
+    },
+    "sideEffects": ["Oral thrush", "Cough", "Throat irritation"]
+  },
+  {
+    "name": "Tretinoin",
+    "uses": "Topical retinoid (Vitamin A derivative) used to treat acne vulgaris and manage fine wrinkles and rough skin.",
+    "otherNames": ["Retin-A", "Vesanoid"],
+    "ingredients": ["Tretinoin"],
+    "dosage": {
+      "adult": { "amount": "0.025% cream", "interval": "Once nightly", "maxPerDay": "Once nightly" },
+      "child": { "amount": "Not recommended for children under 12", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Skin irritation", "Redness", "Sun sensitivity"]
+  },
+  {
+    "name": "Loratadine",
+    "uses": "Non-drowsy antihistamine for the relief of symptoms of allergic rhinitis (hay fever) and hives.",
+    "otherNames": ["Claritin"],
+    "ingredients": ["Loratadine"],
+    "dosage": {
+      "adult": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "10 mg" },
+      "child": { "amount": "5 mg", "interval": "Once daily", "maxPerDay": "5 mg" }
+    },
+    "sideEffects": ["Headache", "Dry mouth", "Fatigue"]
+  },
+  {
+    "name": "Gabapentin Enacarbil",
+    "uses": "Prodrug of Gabapentin, primarily used for Restless Legs Syndrome (RLS) and postherpetic neuralgia.",
+    "otherNames": ["Horizant"],
+    "ingredients": ["Gabapentin Enacarbil"],
+    "dosage": {
+      "adult": { "amount": "600 mg", "interval": "Once daily (evening)", "maxPerDay": "1200 mg" },
+      "child": { "amount": "Not recommended", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Somnolence", "Dizziness", "Fatigue"]
+  },
+  {
+    "name": "Valproic Acid",
+    "uses": "Anticonvulsant used to treat various types of seizures, manic episodes of bipolar disorder, and migraine prevention.",
+    "otherNames": ["Depakote", "Depakene"],
+    "ingredients": ["Valproic Acid"],
+    "dosage": {
+      "adult": { "amount": "250 mg", "interval": "Three times daily (titrated)", "maxPerDay": "60 mg/kg/day" },
+      "child": { "amount": "10-15 mg/kg", "interval": "Twice daily (titrated)", "maxPerDay": "60 mg/kg/day" }
+    },
+    "sideEffects": ["Nausea", "Drowsiness", "Tremor", "Liver toxicity (rare)"]
+  },
+  {
+    "name": "Venlafaxine",
+    "uses": "Serotonin-Norepinephrine Reuptake Inhibitor (SNRI) antidepressant for major depressive disorder, GAD, and panic disorder.",
+    "otherNames": ["Effexor"],
+    "ingredients": ["Venlafaxine Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "75 mg", "interval": "Once daily (ER)", "maxPerDay": "375 mg" },
+      "child": { "amount": "Not recommended for children under 18", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Nausea", "Dizziness", "Insomnia", "Increased blood pressure"]
+  },
+  {
+    "name": "Dexamethasone",
+    "uses": "Potent corticosteroid used to treat severe inflammation, allergies, and as an anti-emetic in chemotherapy.",
+    "otherNames": ["Decadron"],
+    "ingredients": ["Dexamethasone"],
+    "dosage": {
+      "adult": { "amount": "0.75 mg", "interval": "Once daily (variable based on condition)", "maxPerDay": "16 mg" },
+      "child": { "amount": "0.02 mg/kg", "interval": "Three times daily", "maxPerDay": "0.3 mg/kg" }
+    },
+    "sideEffects": ["Fluid retention", "Mood changes", "Insomnia"]
+  },
+  {
+    "name": "Bupropion",
+    "uses": "Atypical antidepressant for major depressive disorder (MDD) and for smoking cessation.",
+    "otherNames": ["Wellbutrin", "Zyban"],
+    "ingredients": ["Bupropion Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "150 mg", "interval": "Once daily (SR/XL)", "maxPerDay": "450 mg" },
+      "child": { "amount": "Not recommended for children under 18", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Insomnia", "Dry mouth", "Seizures (dose-related risk)"]
+  },
+  {
+    "name": "Phenylephrine",
+    "uses": "Nasal decongestant (topical or oral) used for the temporary relief of stuffy nose due to common cold, hay fever, or allergies.",
+    "otherNames": ["Sudafed PE", "Neo-Synephrine"],
+    "ingredients": ["Phenylephrine"],
+    "dosage": {
+      "adult": { "amount": "10 mg (oral)", "interval": "Every 4 hours", "maxPerDay": "60 mg" },
+      "child": { "amount": "5 mg (oral)", "interval": "Every 4 hours", "maxPerDay": "30 mg" }
+    },
+    "sideEffects": ["Nervousness", "Insomnia", "Increased blood pressure"]
+  },
+  {
+    "name": "Diphenhydramine",
+    "uses": "First-generation antihistamine used to treat allergies, motion sickness, insomnia, and for relief of extrapyramidal symptoms.",
+    "otherNames": ["Benadryl"],
+    "ingredients": ["Diphenhydramine Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "25 mg - 50 mg", "interval": "Every 4 to 6 hours", "maxPerDay": "300 mg" },
+      "child": { "amount": "12.5 mg - 25 mg", "interval": "Every 4 to 6 hours", "maxPerDay": "150 mg" }
+    },
+    "sideEffects": ["Drowsiness (pronounced)", "Dry mouth", "Blurred vision"]
+  },
+  {
+    "name": "Metronidazole",
+    "uses": "Antibiotic/Antiprotozoal drug for bacterial and parasitic infections (e.g., C. difficile colitis, trichomoniasis).",
+    "otherNames": ["Flagyl"],
+    "ingredients": ["Metronidazole"],
+    "dosage": {
+      "adult": { "amount": "500 mg", "interval": "Three times daily (variable)", "maxPerDay": "2000 mg" },
+      "child": { "amount": "7.5 mg/kg", "interval": "Three times daily", "maxPerDay": "50 mg/kg" }
+    },
+    "sideEffects": ["Nausea", "Metallic taste in mouth", "Dark urine"]
+  },
+  {
+    "name": "Sucralfate",
+    "uses": "Treats and prevents duodenal ulcers by forming a protective coating over the ulcer site.",
+    "otherNames": ["Carafate"],
+    "ingredients": ["Sucralfate"],
+    "dosage": {
+      "adult": { "amount": "1 g", "interval": "Four times daily", "maxPerDay": "4 g" },
+      "child": { "amount": "Not commonly recommended", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Constipation", "Dry mouth", "Nausea"]
+  },
+  {
+    "name": "Meloxicam",
+    "uses": "NSAID used to treat pain and inflammation in osteoarthritis and rheumatoid arthritis.",
+    "otherNames": ["Mobic"],
+    "ingredients": ["Meloxicam"],
+    "dosage": {
+      "adult": { "amount": "7.5 mg - 15 mg", "interval": "Once daily", "maxPerDay": "15 mg" },
+      "child": { "amount": "Not recommended for children under 2", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Dyspepsia (indigestion)", "Abdominal pain", "Dizziness"]
+  },
+  {
+    "name": "Allopurinol",
+    "uses": "Reduces high uric acid levels to prevent gout attacks and kidney stones.",
+    "otherNames": ["Zyloprim"],
+    "ingredients": ["Allopurinol"],
+    "dosage": {
+      "adult": { "amount": "100 mg", "interval": "Once daily (titrated)", "maxPerDay": "800 mg" },
+      "child": { "amount": "10 mg/kg", "interval": "Three times daily (for specific conditions)", "maxPerDay": "600 mg" }
+    },
+    "sideEffects": ["Rash", "Diarrhea", "Nausea"]
+  },
+  {
+    "name": "Morphine",
+    "uses": "Opioid analgesic for the relief of moderate to severe acute and chronic pain.",
+    "otherNames": ["MS Contin", "Roxanol"],
+    "ingredients": ["Morphine Sulfate"],
+    "dosage": {
+      "adult": { "amount": "15 mg (IR)", "interval": "Every 4 hours (variable)", "maxPerDay": "Variable" },
+      "child": { "amount": "0.2 mg/kg", "interval": "Every 4 hours (variable)", "maxPerDay": "Variable" }
+    },
+    "sideEffects": ["Respiratory depression", "Constipation", "Nausea", "Dependence"]
+  },
+  {
+    "name": "Insulin Glargine",
+    "uses": "Long-acting human insulin analog used to control high blood sugar in Type 1 and Type 2 diabetes.",
+    "otherNames": ["Lantus", "Basaglar"],
+    "ingredients": ["Insulin Glargine"],
+    "dosage": {
+      "adult": { "amount": "10 units", "interval": "Once daily (titrated)", "maxPerDay": "Variable" },
+      "child": { "amount": "0.2 units/kg", "interval": "Once daily (titrated)", "maxPerDay": "Variable" }
+    },
+    "sideEffects": ["Hypoglycemia (low blood sugar)", "Injection site reactions", "Weight gain"]
+  },
+  {
+    "name": "Tizanidine",
+    "uses": "Alpha-2 adrenergic agonist muscle relaxant for the short-term treatment of spasticity and muscle tightness.",
+    "otherNames": ["Zanaflex"],
+    "ingredients": ["Tizanidine Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "4 mg", "interval": "Three times daily (titrated)", "maxPerDay": "36 mg" },
+      "child": { "amount": "Not recommended for children under 18", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Drowsiness", "Dizziness", "Dry mouth", "Hypotension"]
+  },
+  {
+    "name": "Nystatin",
+    "uses": "Antifungal medication used to treat candidiasis (yeast infections) of the mouth, throat, and gastrointestinal tract.",
+    "otherNames": ["Mycostatin"],
+    "ingredients": ["Nystatin"],
+    "dosage": {
+      "adult": { "amount": "500,000 units", "interval": "Three times daily", "maxPerDay": "4,000,000 units" },
+      "child": { "amount": "200,000 units", "interval": "Four times daily", "maxPerDay": "2,000,000 units" }
+    },
+    "sideEffects": ["Nausea", "Vomiting", "Diarrhea"]
+  },
+  {
+    "name": "Potassium Chloride",
+    "uses": "Electrolyte supplement used to prevent or treat low potassium levels (hypokalemia).",
+    "otherNames": ["K-Dur", "Klor-Con"],
+    "ingredients": ["Potassium Chloride"],
+    "dosage": {
+      "adult": { "amount": "20 mEq", "interval": "Once or twice daily", "maxPerDay": "100 mEq" },
+      "child": { "amount": "1-2 mEq/kg", "interval": "Twice daily", "maxPerDay": "3 mEq/kg" }
+    },
+    "sideEffects": ["Nausea", "Vomiting", "Abdominal discomfort"]
+  },
+  {
+    "name": "Thyroxine",
+    "uses": "Synthetic thyroid hormone used for replacement therapy in hypothyroidism (underactive thyroid).",
+    "otherNames": ["Eltroxin", "Levothyroxine"],
+    "ingredients": ["Sodium Levothyroxine"],
+    "dosage": {
+      "adult": { "amount": "50 mcg", "interval": "Once daily (titrated)", "maxPerDay": "300 mcg" },
+      "child": { "amount": "10 mcg/kg", "interval": "Once daily (titrated)", "maxPerDay": "Variable" }
+    },
+    "sideEffects": ["Palpitations", "Nervousness", "Insomnia (with overdose)"]
+  },
+  {
+    "name": "Cephalexin",
+    "uses": "First-generation cephalosporin antibiotic for skin, bone, ear, and respiratory tract bacterial infections.",
+    "otherNames": ["Keflex"],
+    "ingredients": ["Cephalexin"],
+    "dosage": {
+      "adult": { "amount": "500 mg", "interval": "Every 6 hours", "maxPerDay": "4000 mg" },
+      "child": { "amount": "25 mg/kg", "interval": "Every 8 hours", "maxPerDay": "100 mg/kg" }
+    },
+    "sideEffects": ["Diarrhea", "Nausea", "Stomach upset"]
+  },
+  {
+    "name": "Phenytoin",
+    "uses": "Anticonvulsant drug used to prevent and control generalized tonic-clonic and complex partial seizures.",
+    "otherNames": ["Dilantin"],
+    "ingredients": ["Phenytoin"],
+    "dosage": {
+      "adult": { "amount": "100 mg", "interval": "Three times daily (titrated)", "maxPerDay": "600 mg" },
+      "child": { "amount": "5 mg/kg", "interval": "Twice daily", "maxPerDay": "10 mg/kg" }
+    },
+    "sideEffects": ["Gingival hyperplasia (gum overgrowth)", "Dizziness", "Ataxia"]
+  },
+  {
+    "name": "Bisoprolol",
+    "uses": "Beta-blocker for hypertension, chronic heart failure, and angina.",
+    "otherNames": ["Zebeta"],
+    "ingredients": ["Bisoprolol Fumarate"],
+    "dosage": {
+      "adult": { "amount": "5 mg", "interval": "Once daily", "maxPerDay": "20 mg" },
+      "child": { "amount": "Not commonly recommended", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Bradycardia", "Fatigue", "Dizziness"]
+  },
+  {
+    "name": "Duloxetine",
+    "uses": "SNRI for major depressive disorder, generalized anxiety disorder (GAD), and management of chronic musculoskeletal pain.",
+    "otherNames": ["Cymbalta"],
+    "ingredients": ["Duloxetine Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "30 mg", "interval": "Once daily", "maxPerDay": "60 mg" },
+      "child": { "amount": "Not recommended for children under 7", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Nausea", "Dry mouth", "Constipation", "Drowsiness"]
+  },
+  {
+    "name": "Rivaroxaban",
+    "uses": "Direct Factor Xa inhibitor anticoagulant (blood thinner) for preventing DVT/PE and stroke in atrial fibrillation.",
+    "otherNames": ["Xarelto"],
+    "ingredients": ["Rivaroxaban"],
+    "dosage": {
+      "adult": { "amount": "10 mg - 20 mg", "interval": "Once daily", "maxPerDay": "20 mg" },
+      "child": { "amount": "Not recommended", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["**Increased risk of bleeding**", "Back pain", "Bruising"]
+  },
+  {
+    "name": "Fluticasone",
+    "uses": "Corticosteroid nasal spray for the management of seasonal and perennial allergic rhinitis (hay fever).",
+    "otherNames": ["Flonase"],
+    "ingredients": ["Fluticasone Propionate"],
+    "dosage": {
+      "adult": { "amount": "2 sprays/nostril", "interval": "Once daily", "maxPerDay": "4 sprays/nostril" },
+      "child": { "amount": "1 spray/nostril", "interval": "Once daily", "maxPerDay": "2 sprays/nostril" }
+    },
+    "sideEffects": ["Nasal irritation", "Nosebleeds", "Headache"]
+  },
+  {
+    "name": "Esomeprazole",
+    "uses": "PPI that reduces stomach acid, treats GERD, erosive esophagitis, and H. pylori infection.",
+    "otherNames": ["Nexium"],
+    "ingredients": ["Esomeprazole Magnesium"],
+    "dosage": {
+      "adult": { "amount": "20 mg - 40 mg", "interval": "Once daily", "maxPerDay": "40 mg" },
+      "child": { "amount": "10 mg", "interval": "Once daily", "maxPerDay": "20 mg" }
+    },
+    "sideEffects": ["Headache", "Diarrhea", "Abdominal pain"]
+  },
+  {
+    "name": "Aspirin",
+    "uses": "NSAID used for pain, inflammation, fever, and at low doses, to prevent blood clots (heart attack and stroke prophylaxis).",
+    "otherNames": ["Acetylsalicylic Acid (ASA)"],
+    "ingredients": ["Acetylsalicylic Acid"],
+    "dosage": {
+      "adult": { "amount": "81 mg (prophylaxis) - 650 mg (pain)", "interval": "Once daily or every 4 hours", "maxPerDay": "4000 mg" },
+      "child": { "amount": "Not recommended for fever (Reye's Syndrome risk)", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Stomach irritation", "Bleeding risk", "Tinnitus (ringing in ears)"]
+  },
+  {
+    "name": "Diltiazem",
+    "uses": "Calcium channel blocker for hypertension, chronic stable angina, and to control heart rate in atrial fibrillation.",
+    "otherNames": ["Cardizem", "Tiazac"],
+    "ingredients": ["Diltiazem Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "30 mg", "interval": "Four times daily (IR)", "maxPerDay": "360 mg" },
+      "child": { "amount": "Not commonly recommended", "interval": "-", "maxPerDay": "-" }
+    },
+    "sideEffects": ["Edema (swelling)", "Headache", "Dizziness", "Bradycardia"]
+  },
+  {
+    "name": "Clindamycin",
+    "uses": "Lincosamide antibiotic for serious bacterial infections, often used for anaerobic bacteria, skin, and pelvic infections.",
+    "otherNames": ["Cleocin"],
+    "ingredients": ["Clindamycin Hydrochloride"],
+    "dosage": {
+      "adult": { "amount": "300 mg", "interval": "Every 6 to 8 hours", "maxPerDay": "1800 mg" },
+      "child": { "amount": "10 mg/kg", "interval": "Three times daily", "maxPerDay": "40 mg/kg" }
+    },
+    "sideEffects": ["Diarrhea", "**Clostridium difficile-associated diarrhea (CDAD)**", "Nausea"]
   }
 ]
