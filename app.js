@@ -150,18 +150,31 @@ function performSearch(query) {
     return;
   }
 
-  // try exact match first
+  // 🔍 Direct match
   let matched = medicines.find(m => m.name.toLowerCase() === q);
+
+  // 🔍 If not found, check aliases (otherNames)
   if (!matched) {
-    // partial: includes anywhere
-    matched = medicines.find(m => m.name.toLowerCase().includes(q));
+    matched = medicines.find(m =>
+      (m.otherNames || []).some(alias => alias.toLowerCase() === q)
+    );
   }
+
+  // 🔍 If still not found, try partial match in names
+  if (!matched) {
+    matched = medicines.find(m =>
+      m.name.toLowerCase().includes(q) ||
+      (m.otherNames || []).some(alias => alias.toLowerCase().includes(q))
+    );
+  }
+
   if (matched) {
     showMedicineDetails(matched);
   } else {
     alert("No medicine found for: " + query);
   }
 }
+
 
 function renderSuggestions(query) {
   searchSuggestions.innerHTML = "";
@@ -471,3 +484,94 @@ window.appAPI = {
   showFavorites,
   showWelcomeScreen
 };
+// -------------------- OCR Integration --------------------
+// -------------------- OCR Integration (Smart Filter) --------------------
+const ocrBtn = document.getElementById("ocr-btn");
+const ocrInput = document.getElementById("ocr-image");
+
+const medicinePriorityList = [
+  "Paracetamol", "Ibuprofen", "Cetirizine", "Amoxicillin", "Azithromycin",
+  "Dolo", "Crocin", "Panadol", "Calpol", "Metformin",
+  "Pantoprazole", "Omeprazole", "Cetrizine", "Aspirin", "Diclofenac",
+  "Losartan", "Amlodipine", "Atorvastatin", "Levocetirizine", "Ranitidine"
+];
+
+const ignoreWords = [
+  "Tablet", "Tablets", "Capsule", "Capsules", "Strip", "Syrup", "Injection",
+  "Suspension", "Dose", "For", "Use", "Mg", "Ml", "Each", "Contains"
+];
+
+ocrBtn.addEventListener("click", () => {
+  ocrInput.click();
+});
+
+ocrInput.addEventListener("change", async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("apikey", "02de19fdfa88957"); // your OCR.space API key
+  formData.append("language", "eng");
+  formData.append("isOverlayRequired", "false");
+  formData.append("file", file);
+
+  // show spinner while processing
+  ocrBtn.disabled = true;
+  const originalHTML = ocrBtn.innerHTML;
+  ocrBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
+
+  try {
+    const res = await fetch("https://api.ocr.space/parse/image", {
+      method: "POST",
+      body: formData
+    });
+    const data = await res.json();
+
+    const text = data?.ParsedResults?.[0]?.ParsedText || "";
+    if (!text.trim()) {
+      alert("No readable text found in image.");
+      return;
+    }
+
+    console.log("🩺 OCR Raw:", text);
+
+    // Clean and normalize words
+    const words = text
+      .replace(/[^A-Za-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .map(w => w.trim())
+      .filter(w => w.length > 2 && w.length < 20)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .filter(w => !ignoreWords.includes(w));
+
+    console.log("💊 Filtered Words:", words);
+
+    // Look for a medicine in the priority list
+    let probableMed = words.find(w => medicinePriorityList.includes(w));
+
+    // If no direct match, find one that ends with "mg" or number combo
+    if (!probableMed) {
+      probableMed = words.find((w, i) => /\d+mg/i.test(words[i + 1] || ""));
+      if (probableMed) probableMed += " " + (words[words.indexOf(probableMed) + 1] || "");
+    }
+
+    // If still nothing, fallback to first valid word
+    if (!probableMed && words.length) probableMed = words[0];
+
+    if (probableMed) {
+      searchInput.value = probableMed;
+      searchInput.dispatchEvent(new Event("input")); // show clear button
+      performSearch(probableMed);
+    } else {
+      alert("No valid medicine name detected.");
+    }
+  } catch (err) {
+    console.error("OCR error:", err);
+    alert("Failed to extract text. Try again.");
+  } finally {
+    ocrBtn.disabled = false;
+    ocrBtn.innerHTML = originalHTML;
+  }
+});
+
+
